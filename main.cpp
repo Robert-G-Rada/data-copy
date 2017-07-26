@@ -58,9 +58,9 @@ void extractFiles()
     }
 }
 
-void copyLoader(FILE *output_file)
+void copyFile(const char *file_name, FILE *output_file)
 {
-    FILE *file = fopen("loader.gba", "rb");
+    FILE *file = fopen(file_name, "rb");
     if (file == NULL)
     {
         cerr << "ERROR: Could not open loader.gba\n";
@@ -90,7 +90,7 @@ void copyLoader(FILE *output_file)
     free(buffer);
 }
 
-void copyCode(FILE *output_file)
+void copyData(FILE *output_file)
 {
 
 }
@@ -104,7 +104,11 @@ int main(int argc, char *argv[])
     string output_name = project_name + ".gba";
     FILE *output_file = fopen(output_name.c_str(), "wb");
 
-    copyLoader(output_file);
+    copyFile("loader.gba", output_file);
+    string bin_name = project_name + ".bin";
+    copyFile(bin_name.c_str(), output_file);
+
+    fclose(output_file);
 
     return 0;
 }
