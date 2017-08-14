@@ -21,8 +21,15 @@ void waitKey()
     cin >> x;
 }
 
-void getProjectName(char *argv[])
+void getProjectName(int argc, char *argv[])
 {
+    if (argc == 0)
+        project_name = "game";
+    else
+    {
+        project_name = argv[1];
+    }
+    /*
     int left, right = 0;
     for (int i = strlen(argv[0]) - 1; i >= 0; i--)
     {
@@ -42,6 +49,7 @@ void getProjectName(char *argv[])
         project_name.push_back(argv[0][i]);
 
     cout << project_name << '\n';
+    */
 }
 
 void extractFiles()
@@ -72,7 +80,7 @@ void copyFile(const char *file_name, FILE *output_file)
     FILE *file = fopen(file_name, "rb");
     if (file == NULL)
     {
-        cerr << "ERROR: Could not open loader.gba\n";
+        cerr << "ERROR: Could not open " << file_name << '\n';
         waitKey();
         exit(2);
     }
@@ -163,7 +171,7 @@ int main(int argc, char *argv[])
 {
     extractFiles();
 
-    getProjectName(argv);
+    getProjectName(argc, argv);
 
     string output_name = project_name + ".gba";
     FILE *output_file = fopen(output_name.c_str(), "wb");
